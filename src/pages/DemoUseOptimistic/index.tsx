@@ -1,10 +1,14 @@
-import { Avatar, Button, Card, Form, Input, List, Space, Spin } from 'antd';
-import { useForm } from 'antd/es/form/Form';
-import { startTransition, useOptimistic, useState } from 'react';
+import { Button, Card, Flex, LoadingOverlay, Modal, Table } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { useQuery } from '@tanstack/react-query';
+import { useOptimistic, useState } from 'react';
+import classes from './style.module.css';
 
 type ListType = {
-	id: string;
-	title: string;
+	position: number;
+	mass: number;
+	symbol: string;
+	name: string;
 };
 
 type OptimisticListType = ListType & {
@@ -12,92 +16,76 @@ type OptimisticListType = ListType & {
 };
 
 export default function DemoUseOptimistic() {
-	const [form] = useForm();
+	const query = useQuery<ListType[]>({
+		queryKey: ['ITEMS'],
+		queryFn: getItems,
+		initialData: [],
+	});
 
-	const [list, setList] = useState<ListType[]>([
-		{
-			id: crypto.randomUUID(),
-			title: 'Ant Design Title 1',
-		},
-		{
-			id: crypto.randomUUID(),
-			title: 'Ant Design Title 2',
-		},
-		{
-			id: crypto.randomUUID(),
-			title: 'Ant Design Title 3',
-		},
-		{
-			id: crypto.randomUUID(),
-			title: 'Ant Design Title 4',
-		},
-	]);
+	const [open, setOpen] = useState(false);
 
-	const [optimisticList, setOptimisticList] =
-		useOptimistic<OptimisticListType[]>(list);
+	const form = useForm();
 
-	async function updateList(data: { input: string }) {
-		form.resetFields();
+	const [optimisticList, setOptimisticList] = useOptimistic<OptimisticListType[]>(query.data);
 
-		const optimisticItem = {
-			id: crypto.randomUUID(),
-			title: data.input,
-			loading: true,
-		};
-
-		startTransition(() => {
-			setOptimisticList((list) => [...list, optimisticItem]);
-		});
-
-		startTransition(async () => {
-			const newItem = await createItem(data.input);
-			setList((list) => [...list, newItem]);
-		});
-	}
+	const rows = optimisticList.map((element) => (
+		<Table.Tr key={element.name} data-loading={element.loading}>
+			<Table.Td>{element.position}</Table.Td>
+			<Table.Td>{element.name}</Table.Td>
+			<Table.Td>{element.symbol}</Table.Td>
+			<Table.Td>{element.mass}</Table.Td>
+		</Table.Tr>
+	));
 
 	return (
-		<Card>
-			<Space>
-				<Form form={form} layout='inline' onFinish={updateList}>
-					<Form.Item name='input' rules={[{ required: true }]}>
-						<Input placeholder='Insert Title Here' />
-					</Form.Item>
-					<Button type='primary' htmlType='submit'>
-						Add
-					</Button>
-				</Form>
-			</Space>
-			<List
-				dataSource={optimisticList}
-				itemLayout='horizontal'
-				renderItem={(item, index) => (
-					<Spin spinning={!!item?.loading}>
-						<List.Item>
-							<List.Item.Meta
-								avatar={
-									<Avatar
-										src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
-									/>
-								}
-								title={<a href='#'>{item.title}</a>}
-								description='Ant Design, a design language for background applications, is refined by Ant UED Team'
-							/>
-						</List.Item>
-					</Spin>
-				)}
-			/>
-		</Card>
+		<Flex justify='center'>
+			<Card withBorder shadow='sm' m='lg' maw='1200px'>
+				<LoadingOverlay visible={query.isFetching} />
+				<Table
+					miw='750px'
+					classNames={{ tr: classes.tr }}
+					striped
+					highlightOnHover
+					withColumnBorders
+					withRowBorders
+				>
+					<Table.Thead>
+						<Table.Tr>
+							<Table.Th>Element position</Table.Th>
+							<Table.Th>Element name</Table.Th>
+							<Table.Th>Symbol</Table.Th>
+							<Table.Th>Atomic mass</Table.Th>
+						</Table.Tr>
+					</Table.Thead>
+					<Table.Tbody>{rows}</Table.Tbody>
+				</Table>
+				<Button fullWidth size='xs' variant='light' mt='md' onClick={() => setOpen(true)}>
+					Add Item
+				</Button>
+			</Card>
+			<Modal opened={open} onClose={() => setOpen(false)}></Modal>
+		</Flex>
 	);
 }
 
-async function createItem(input: string) {
-	return await wait({ id: crypto.randomUUID(), title: input }, 1000);
+async function getItems() {
+	return new Promise<ListType[]>((r) => {
+		setTimeout(() => {
+			r([
+				{ position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
+				{ position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
+				{ position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
+				{ position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
+				{ position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
+			]);
+		}, 1000);
+	});
 }
 
-function wait<T>(value: T, duration: number) {
-	return new Promise<T>((resolve) => {
+async function postItem(input: ListType) {
+	return new Promise((r) => {
 		setTimeout(() => {
-			resolve(value);
-		}, duration);
+			r(input);
+		}, 2000);
 	});
 }

@@ -1,37 +1,20 @@
-import { Card, Input, Spin } from 'antd';
-import { useState, useTransition } from 'react';
+import { Button, SimpleGrid } from '@mantine/core';
 
 export default function DemoUseTransition() {
-	const LIST_COUNT = 2000;
-
-	const [input, setInput] = useState('');
-
-	const [loading, startTransition] = useTransition();
-
-	const [list, setList] = useState<string[]>([]);
-
-	function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-		setInput(e.target.value);
-
-		startTransition(() => {
-			const li: string[] = [];
-
-			for (let i = 0; i <= LIST_COUNT; i++) {
-				li.push(e.target.value);
-			}
-
-			setList(li);
-		});
-	}
-
-	return (
-		<Card>
-			<Input value={input} onChange={handleOnChange} />
-			{loading ? (
-				<Spin />
-			) : (
-				list.map((item, index) => <div key={index}>{item}</div>)
-			)}
-		</Card>
-	);
+  return (
+    <SimpleGrid
+      cols={{
+        base: 1,
+        md: 2,
+        lg: 3,
+      }}
+    >
+      <Button size='xl'>1</Button>
+      <Button size='xl'>2</Button>
+      <Button size='xl'>3</Button>
+      <Button size='xl'>4</Button>
+      <Button size='xl'>5</Button>
+      <Button size='xl'>6</Button>
+    </SimpleGrid>
+  );
 }
