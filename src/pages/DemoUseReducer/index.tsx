@@ -3,18 +3,19 @@ import { useReducer } from 'react';
 import AppContent from './components/AppContent';
 import AppHeader from './components/AppHeader';
 import AppSider from './components/AppSider';
-import { AppContext } from './context';
+import { AppContext, type Action, type AppContextValue } from './context';
+
+type ContextState = Omit<AppContextValue, 'dispatch'>;
 
 export default function DemoUseReducer() {
-	const [state, dispatch] = useReducer(
+	const [state, dispatch] = useReducer<ContextState, [action: Action]>(
 		(state, action) => {
-			if (action.type === 'openSider') {
-				state.opened = true;
-			}
-			if (action.type === 'closeSider') {
-				state.opened = false;
-			}
 			console.log(state, action);
+
+			if (action.type === 'toggle_sider') {
+				state.opened = !state.opened;
+			}
+
 			return {
 				...state,
 			};
@@ -25,14 +26,14 @@ export default function DemoUseReducer() {
 	);
 
 	return (
-		<AppContext.Provider
+		<AppContext
 			value={{
 				...state,
 				dispatch,
 			}}
 		>
 			<AppShell
-				header={{ height: { base: 60, md: 70, lg: 80 } }}
+				header={{ height: { base: 64 } }}
 				navbar={{
 					width: { base: 200, md: 300, lg: 400 },
 					breakpoint: 'sm',
@@ -47,6 +48,6 @@ export default function DemoUseReducer() {
 				<AppSider />
 				<AppContent />
 			</AppShell>
-		</AppContext.Provider>
+		</AppContext>
 	);
 }

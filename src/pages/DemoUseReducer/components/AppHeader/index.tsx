@@ -11,11 +11,7 @@ export default function AppHeader() {
 				<Burger
 					opened={!context.opened}
 					onClick={() => {
-						if (context.opened) {
-							context.dispatch({ type: 'closeSider' });
-						} else {
-							context.dispatch({ type: 'openSider' });
-						}
+						context.dispatch({ type: 'toggle_sider' });
 					}}
 				/>
 			</Group>
