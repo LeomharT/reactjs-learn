@@ -3,7 +3,7 @@ import { Button, Stack, Text, Title } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import classes from './style.module.css';
 
-export default function NoneSelected() {
+export default function NoneSelected(props: { onAdd: () => void }) {
 	return (
 		<Stack align='center'>
 			<Stack p='lg'>
@@ -14,7 +14,7 @@ export default function NoneSelected() {
 					Preview changes before publishing, and ensure responsiveness across devices. Save your
 					updates to apply them.
 				</Text>
-				<Button variant='light' size='lg' leftSection={<IconPlus />}>
+				<Button variant='light' size='lg' leftSection={<IconPlus />} onClick={props.onAdd}>
 					Add New Menu Item
 				</Button>
 			</Stack>

@@ -1,5 +1,9 @@
-import { AppShell } from '@mantine/core';
+import { AppShell, Card } from '@mantine/core';
 
 export default function AppContent() {
-	return <AppShell.Main>AppContent</AppShell.Main>;
+	return (
+		<AppShell.Main>
+			<Card>Main Content</Card>
+		</AppShell.Main>
+	);
 }

@@ -9,22 +9,26 @@ import classes from './style.module.css';
 export default function DemoMenuManage() {
 	const tree = useTree();
 
+	const b = 123;
+
 	const [selected] = useState();
+
+	const [treeData, setTreeData] = useState(data);
 
 	return (
 		<div className={classes.layout}>
 			<Card withBorder shadow='md' p={0} className={classes.tree}>
 				<form>
 					<Group wrap='wrap' justify='space-between' p='sm'>
-						<Select placeholder='请选择类型' />
-						<TextInput placeholder='请输入关键字' />
+						<Select placeholder='Select menu type' />
+						<TextInput placeholder='Input search' />
 						<Button leftSection={<IconSearch />}>Search</Button>
 					</Group>
 					<Divider />
 				</form>
 				<Tree
 					tree={tree}
-					data={data}
+					data={treeData}
 					selectOnClick
 					clearSelectionOnOutsideClick
 					classNames={{
@@ -35,7 +39,9 @@ export default function DemoMenuManage() {
 				/>
 			</Card>
 			<Card withBorder shadow='md'>
-				{!selected && <NoneSelected />}
+				{!selected && (
+					<NoneSelected onAdd={() => setTreeData((prev) => [...prev, { label: '', value: '' }])} />
+				)}
 			</Card>
 		</div>
 	);
