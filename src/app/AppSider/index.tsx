@@ -1,14 +1,10 @@
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu, theme, type MenuProps } from 'antd';
 import { useState } from 'react';
-import { useLocation, useMatches, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { items } from '../../data/menus.tsx';
 import classes from './style.module.css';
 export default function AppSider() {
-  const locatoin = useLocation();
-
-  const matches = useMatches();
-
   const navigate = useNavigate();
 
   const { token } = theme.useToken();
@@ -19,8 +15,6 @@ export default function AppSider() {
     console.log(info);
     navigate(`/${info.key}`);
   };
-
-  console.log(locatoin, matches);
 
   return (
     <Layout.Sider
