@@ -3,11 +3,11 @@ import zhCN from 'antd/locale/zh_CN';
 import { Outlet } from 'react-router';
 
 export default function App() {
-	return (
-		<ConfigProvider locale={zhCN} theme={{ cssVar: true }}>
-			<AntApp>
-				<Outlet />
-			</AntApp>
-		</ConfigProvider>
-	);
+  return (
+    <ConfigProvider locale={zhCN} theme={{ cssVar: {} }}>
+      <AntApp>
+        <Outlet />
+      </AntApp>
+    </ConfigProvider>
+  );
 }
