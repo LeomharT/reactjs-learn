@@ -1,0 +1,11 @@
+.sider {
+  position: relative;
+  height: calc(100vh - 64px);
+  overflow: auto;
+}
+
+.button {
+  position: absolute;
+  right: -12px;
+  top: 12px;
+}
