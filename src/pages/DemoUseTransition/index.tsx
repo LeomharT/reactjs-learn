@@ -26,7 +26,13 @@ export default function DemoUseTransition() {
 
   return (
     <Card>
-      <Input value={input} onChange={handleOnChange} />
+      <Input
+        allowClear
+        size='large'
+        value={input}
+        onChange={handleOnChange}
+        placeholder='Insert Value Here'
+      />
       {loading ? (
         <Spin />
       ) : (
