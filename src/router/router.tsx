@@ -6,6 +6,7 @@ import {
   Route,
 } from 'react-router';
 import App from '../app';
+import NotFound from '../pages/NotFound';
 
 const DemoUseOptimistic = lazy(() => import('../pages/DemoUseOptimistic'));
 const DemoUseTransition = lazy(() => import('../pages/DemoUseTransition'));
@@ -29,6 +30,7 @@ export const router = createBrowserRouter(
           element={<DemoUseTransition />}
         />
       </Route>
+      <Route path='*' handle={{ label: '404' }} element={<NotFound />} />
     </Route>
   )
 );

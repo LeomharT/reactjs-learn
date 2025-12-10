@@ -1,6 +1,18 @@
-import { Avatar, Button, Card, Form, Input, List, Space, Spin } from 'antd';
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Space,
+  Typography,
+} from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { startTransition, useOptimistic, useState } from 'react';
+import Loader from '../../components/Loader';
 
 type ListType = {
   id: string;
@@ -67,25 +79,30 @@ export default function DemoUseOptimistic() {
           </Button>
         </Form>
       </Space>
-      <List
-        dataSource={optimisticList}
-        itemLayout='horizontal'
-        renderItem={(item, index) => (
-          <Spin spinning={!!item?.loading}>
-            <List.Item>
-              <List.Item.Meta
-                avatar={
+      <Divider />
+      <Row>
+        {optimisticList.map((item, index) => (
+          <Col key={item.id} span={24}>
+            <div>
+              <Loader spinning={!!item?.loading}>
+                <Space size='middle'>
                   <Avatar
                     src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
                   />
-                }
-                title={<a href='#'>{item.title}</a>}
-                description='Ant Design, a design language for background applications, is refined by Ant UED Team'
-              />
-            </List.Item>
-          </Spin>
-        )}
-      />
+                  <Space vertical size={0}>
+                    <a href='#'>{item.title}</a>
+                    <Typography.Text type='secondary'>
+                      Ant Design, a design language for background applications,
+                      is refined by Ant UED Team
+                    </Typography.Text>
+                  </Space>
+                </Space>
+              </Loader>
+            </div>
+            <Divider size='middle' />
+          </Col>
+        ))}
+      </Row>
     </Card>
   );
 }

@@ -4,10 +4,12 @@ import {
   Breadcrumb,
   FloatButton,
   Layout,
+  Skeleton,
+  Typography,
   type BreadcrumbProps,
 } from 'antd';
-import { useRef } from 'react';
-import { Link, Outlet, useMatches } from 'react-router';
+import { Suspense, useRef } from 'react';
+import { Link, Outlet, useLocation, useMatches } from 'react-router';
 import classes from './style.module.css';
 
 const { ErrorBoundary } = Alert;
@@ -16,6 +18,8 @@ export default function AppContent() {
   const ref = useRef<HTMLDivElement>(null);
 
   const matches = useMatches();
+
+  const location = useLocation();
 
   function getItems() {
     const items: BreadcrumbProps['items'] = [];
@@ -44,19 +48,27 @@ export default function AppContent() {
 
   return (
     <Layout.Content ref={ref} className={classes.content}>
-      <ErrorBoundary>
-        <Breadcrumb items={getItems()} />
-        <br />
-        <Outlet />
-        <FloatButton
-          tooltip={{
-            title: 'Back To Top',
-          }}
-          shape='circle'
-          icon={<VerticalAlignTopOutlined />}
-          onClick={backToTop}
-        />
-      </ErrorBoundary>
+      <Suspense key={location.pathname} fallback={<Fallback />}>
+        <ErrorBoundary>
+          <Breadcrumb items={getItems()} />
+          <Typography.Title level={3}>
+            {(matches[matches.length - 1]?.handle as { label?: string })?.label}
+          </Typography.Title>
+          <Outlet />
+          <FloatButton
+            tooltip={{
+              title: 'Back To Top',
+            }}
+            shape='circle'
+            icon={<VerticalAlignTopOutlined />}
+            onClick={backToTop}
+          />
+        </ErrorBoundary>
+      </Suspense>
     </Layout.Content>
   );
+}
+
+function Fallback() {
+  return <Skeleton active />;
 }
