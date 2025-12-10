@@ -1,19 +1,26 @@
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu, theme, type MenuProps } from 'antd';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { items } from '../../data/menus.tsx';
 import classes from './style.module.css';
 export default function AppSider() {
+  const location = useLocation();
+
   const navigate = useNavigate();
+
+  const [selectedKeys] = useState<string[]>([location.pathname]);
+
+  const [openedKeys] = useState<string[]>(
+    setDefaultOpenedKeys(location.pathname)
+  );
 
   const { token } = theme.useToken();
 
   const [collapsed, setCollapsed] = useState(false);
 
   const handleOnMenuChange: MenuProps['onSelect'] = (info) => {
-    console.log(info);
-    navigate(`/${info.key}`);
+    navigate(`${info.key}`);
   };
 
   return (
@@ -25,7 +32,13 @@ export default function AppSider() {
       className={classes.content}
       style={{ background: token.colorBgContainer }}
     >
-      <Menu mode='inline' items={items} onSelect={handleOnMenuChange} />
+      <Menu
+        mode='inline'
+        defaultOpenKeys={openedKeys}
+        defaultSelectedKeys={selectedKeys}
+        items={items}
+        onSelect={handleOnMenuChange}
+      />
       <Button
         shape='circle'
         size='small'
@@ -35,4 +48,16 @@ export default function AppSider() {
       />
     </Layout.Sider>
   );
+}
+
+function setDefaultOpenedKeys(path: string): string[] {
+  const keys = path.split('/').filter(Boolean);
+  const opened: string[] = [];
+
+  keys.reduce((prev, curr) => {
+    opened.push(prev);
+    return prev + '/' + curr;
+  }, '');
+
+  return opened;
 }

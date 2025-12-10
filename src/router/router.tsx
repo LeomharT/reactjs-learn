@@ -14,14 +14,20 @@ export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route index element='Hello World' />
-      <Route path='hooks' loader={() => ({ label: 'Hooks' })}>
+      <Route path='hooks' handle={{ label: 'hooks' }}>
         <Route index element={<Navigate to='useOptimistic' />} />
         <Route
           path='useOptimistic'
-          loader={() => ({ label: 'useOptimistic' })}
+          handle={{ label: 'useOptimistic' }}
           element={<DemoUseOptimistic />}
+        >
+          <Route path='ok' element='ok' />
+        </Route>
+        <Route
+          path='useTransition'
+          handle={{ label: 'useTransition' }}
+          element={<DemoUseTransition />}
         />
-        <Route path='useTransition' element={<DemoUseTransition />} />
       </Route>
     </Route>
   )
