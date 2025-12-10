@@ -1,5 +1,5 @@
 import { Alert, Breadcrumb, Layout, type BreadcrumbProps } from 'antd';
-import { Outlet, useMatches } from 'react-router';
+import { Link, Outlet, useMatches } from 'react-router';
 import classes from './style.module.css';
 
 const { ErrorBoundary } = Alert;
@@ -11,15 +11,15 @@ export default function AppContent() {
     const items: BreadcrumbProps['items'] = [];
 
     matches.forEach((value, index) => {
-      if (value.loaderData) {
-        const label = (value.loaderData as any).label;
+      if (value.handle) {
+        const label = (value.handle as { label: string }).label;
 
         items.push({
           title:
             index === matches.length - 1 ? (
               label
             ) : (
-              <a href={value.pathname}>{label}</a>
+              <Link to={value.pathname}>{label}</Link>
             ),
         });
       }
