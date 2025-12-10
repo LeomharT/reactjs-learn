@@ -1,10 +1,20 @@
-import { Alert, Breadcrumb, Layout, type BreadcrumbProps } from 'antd';
+import { VerticalAlignTopOutlined } from '@ant-design/icons';
+import {
+  Alert,
+  Breadcrumb,
+  FloatButton,
+  Layout,
+  type BreadcrumbProps,
+} from 'antd';
+import { useRef } from 'react';
 import { Link, Outlet, useMatches } from 'react-router';
 import classes from './style.module.css';
 
 const { ErrorBoundary } = Alert;
 
 export default function AppContent() {
+  const ref = useRef<HTMLDivElement>(null);
+
   const matches = useMatches();
 
   function getItems() {
@@ -28,12 +38,24 @@ export default function AppContent() {
     return items;
   }
 
+  function backToTop() {
+    ref.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   return (
-    <Layout.Content className={classes.content}>
+    <Layout.Content ref={ref} className={classes.content}>
       <ErrorBoundary>
         <Breadcrumb items={getItems()} />
         <br />
         <Outlet />
+        <FloatButton
+          tooltip={{
+            title: 'Back To Top',
+          }}
+          shape='circle'
+          icon={<VerticalAlignTopOutlined />}
+          onClick={backToTop}
+        />
       </ErrorBoundary>
     </Layout.Content>
   );

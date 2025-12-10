@@ -1,11 +1,13 @@
 import { App as AntApp, ConfigProvider, Layout, theme } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AppContent from './AppContent';
 import AppHeader from './AppHeader';
 import AppSider from './AppSider';
 
 export default function App() {
+  const ref = useRef(document.querySelector(':root'));
+
   const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
 
   function handleOnToggleTheme() {
@@ -14,6 +16,10 @@ export default function App() {
       return 'dark';
     });
   }
+
+  useEffect(() => {
+    ref.current?.setAttribute('color-scheme', colorScheme);
+  }, [colorScheme]);
 
   return (
     <ConfigProvider
