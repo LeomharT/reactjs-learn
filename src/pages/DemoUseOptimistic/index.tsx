@@ -79,7 +79,7 @@ export default function DemoUseOptimistic() {
                   <Avatar
                     size={48}
                     shape='square'
-                    src={`https://skillicons.dev/icons?i=${item.title}`}
+                    src={`https://skillicons.dev/icons?i=${item.title}&theme=light`}
                   />
                   <Space vertical size={0}>
                     <a href='#'>{item.title}</a>
