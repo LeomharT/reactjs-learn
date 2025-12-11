@@ -13,10 +13,12 @@ import {
 import { useForm } from 'antd/es/form/Form';
 import { startTransition, useOptimistic, useState } from 'react';
 import Loader from '../../components/Loader';
+import data from './data.json';
 
 type ListType = {
   id: string;
   title: string;
+  description: string;
 };
 
 type OptimisticListType = ListType & {
@@ -26,24 +28,7 @@ type OptimisticListType = ListType & {
 export default function DemoUseOptimistic() {
   const [form] = useForm();
 
-  const [list, setList] = useState<ListType[]>([
-    {
-      id: crypto.randomUUID(),
-      title: 'Ant Design Title 1',
-    },
-    {
-      id: crypto.randomUUID(),
-      title: 'Ant Design Title 2',
-    },
-    {
-      id: crypto.randomUUID(),
-      title: 'Ant Design Title 3',
-    },
-    {
-      id: crypto.randomUUID(),
-      title: 'Ant Design Title 4',
-    },
-  ]);
+  const [list, setList] = useState<ListType[]>(data);
 
   const [optimisticList, setOptimisticList] =
     useOptimistic<OptimisticListType[]>(list);
@@ -51,10 +36,13 @@ export default function DemoUseOptimistic() {
   async function updateList(data: { input: string }) {
     form.resetFields();
 
+    const description = randomDescription();
+
     const optimisticItem = {
       id: crypto.randomUUID(),
       title: data.input,
       loading: true,
+      description,
     };
 
     startTransition(() => {
@@ -63,6 +51,8 @@ export default function DemoUseOptimistic() {
 
     startTransition(async () => {
       const newItem = await createItem(data.input);
+      newItem.description = description;
+
       setList((list) => [...list, newItem]);
     });
   }
@@ -81,19 +71,20 @@ export default function DemoUseOptimistic() {
       </Space>
       <Divider />
       <Row>
-        {optimisticList.map((item, index) => (
+        {optimisticList.map((item) => (
           <Col key={item.id} span={24}>
             <div>
               <Loader spinning={!!item?.loading}>
                 <Space size='middle'>
                   <Avatar
-                    src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
+                    size={48}
+                    shape='square'
+                    src={`https://skillicons.dev/icons?i=${item.title}`}
                   />
                   <Space vertical size={0}>
                     <a href='#'>{item.title}</a>
                     <Typography.Text type='secondary'>
-                      Ant Design, a design language for background applications,
-                      is refined by Ant UED Team
+                      {item.description}
                     </Typography.Text>
                   </Space>
                 </Space>
@@ -108,7 +99,10 @@ export default function DemoUseOptimistic() {
 }
 
 async function createItem(input: string) {
-  return await wait({ id: crypto.randomUUID(), title: input }, 1000);
+  return await wait(
+    { id: crypto.randomUUID(), title: input, description: '' },
+    1000
+  );
 }
 
 function wait<T>(value: T, duration: number) {
@@ -117,4 +111,17 @@ function wait<T>(value: T, duration: number) {
       resolve(value);
     }, duration);
   });
+}
+
+const descriptions = [
+  '那是一种内在的东西， 他们到达不了，也无法触及的',
+  '希望是一个好东西，也许是最好的，好东西是不会消亡的',
+  '生命就像一盒巧克力，结果往往出人意料',
+  '城镇中有那么多的酒馆，她却偏偏走进了我的酒馆',
+  '那时候我只会想自己想要什么，从不想自己拥有什么',
+];
+
+function randomDescription() {
+  const index = Math.round(Math.random() * (descriptions.length - 1));
+  return descriptions[index];
 }
