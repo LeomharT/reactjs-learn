@@ -1,7 +1,12 @@
-import { QuestionOutlined } from '@ant-design/icons';
+import { HomeOutlined, QuestionOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 
 export const items: MenuProps['items'] = [
+  {
+    key: '/home',
+    label: 'Home',
+    icon: <HomeOutlined />,
+  },
   {
     key: '/hooks',
     label: 'Hooks',

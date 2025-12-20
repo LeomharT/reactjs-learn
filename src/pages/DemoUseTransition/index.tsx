@@ -1,5 +1,6 @@
-import { Card, Input, Spin } from 'antd';
+import { Card, Input } from 'antd';
 import { useState, useTransition } from 'react';
+import Loader from '../../components/Loader';
 
 export default function DemoUseTransition() {
   const LIST_COUNT = 2000;
@@ -34,7 +35,7 @@ export default function DemoUseTransition() {
         placeholder='Insert Value Here'
       />
       {loading ? (
-        <Spin />
+        <Loader />
       ) : (
         list.map((item, index) => <div key={index}>{item}</div>)
       )}
