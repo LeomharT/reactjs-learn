@@ -20,13 +20,30 @@ export default function Home() {
       showTooltip: true,
       zoomButtons: false,
       regionStyle: {},
-      selectedRegions: ['EG', 'US'],
-      regionsSelectable: true,
+      selectedRegions: [],
+      regionsSelectable: false,
       markers: [
         { name: 'Egypt', coords: [26.8206, 30.8025] },
         { coords: [56.1304, 106.3468], labelName: 'Hello Canada' },
         { coords: [48.379433, 31.16558] },
       ],
+      labels: {
+        markers: {
+          render(marker: any) {
+            return marker.name || marker.labelName || 'Not available';
+          },
+        },
+      },
+      visualizeData: {
+        scale: ['#eeeeee', '#00ff00'],
+        values: {
+          EG: 29,
+          US: 100,
+          CA: 190,
+          BR: 75,
+          CN: 500,
+        },
+      },
     });
 
     console.log(map.current);
