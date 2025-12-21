@@ -1,0 +1,6 @@
+.map {
+  --map-size-height: 580px;
+
+  width: 100%;
+  height: var(--map-size-height);
+}

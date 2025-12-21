@@ -24,6 +24,8 @@ export default function AppContent() {
   function getItems() {
     const items: BreadcrumbProps['items'] = [];
 
+    console.log(matches);
+
     matches.forEach((value, index) => {
       if (value.handle) {
         const label = (value.handle as { label: string }).label;
