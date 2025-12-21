@@ -31,11 +31,12 @@ export default function Home() {
       lineStyle: {
         strokeDasharray: '6 3',
         animation: true,
+        curvature: true,
       },
       lines: [],
       labels: {
         markers: {
-          render(marker: any) {
+          render(marker: typeof jsVectorMap) {
             return marker.name;
           },
         },
@@ -53,8 +54,8 @@ export default function Home() {
     });
 
     map.current.addLines([
-      { from: 'China', to: 'Russia' },
-      { from: 'Egypt', to: 'Russia' },
+      { from: 'Russia', to: 'China' },
+      { from: 'Egypt', to: 'China' },
     ]);
 
     console.log(map.current);
