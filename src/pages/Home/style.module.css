@@ -4,3 +4,8 @@
   width: 100%;
   height: var(--map-size-height);
 }
+@media screen and (max-width: 1080px) {
+  .map {
+    --map-size-height: 380px;
+  }
+}

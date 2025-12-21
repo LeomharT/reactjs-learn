@@ -23,28 +23,39 @@ export default function Home() {
       selectedRegions: [],
       regionsSelectable: false,
       markers: [
-        { name: 'Egypt', coords: [26.8206, 30.8025] },
-        { coords: [56.1304, 106.3468], labelName: 'Hello Canada' },
-        { coords: [48.379433, 31.16558] },
+        { name: 'Egypt', coords: [26.8, 30.8] },
+        { name: 'Russia', coords: [56.1304, 106.3468] },
+        { name: 'Ukraine', coords: [48.379433, 31.16558] },
+        { name: 'China', coords: [35.8, 104.1] },
       ],
+      lineStyle: {
+        strokeDasharray: '6 3',
+        animation: true,
+      },
+      lines: [],
       labels: {
         markers: {
           render(marker: any) {
-            return marker.name || marker.labelName || 'Not available';
+            return marker.name;
           },
         },
       },
       visualizeData: {
-        scale: ['#eeeeee', '#00ff00'],
+        scale: ['#bae0ff', '#0958d9'],
         values: {
           EG: 29,
           US: 100,
           CA: 190,
           BR: 75,
-          CN: 500,
+          CN: 150,
         },
       },
     });
+
+    map.current.addLines([
+      { from: 'China', to: 'Russia' },
+      { from: 'Egypt', to: 'Russia' },
+    ]);
 
     console.log(map.current);
 
