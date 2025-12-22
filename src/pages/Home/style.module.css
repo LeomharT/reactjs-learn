@@ -1,16 +1,28 @@
-.map {
-  --map-size-height: 380px;
-
-  width: 100%;
-  height: var(--map-size-height);
+.root {
+  --map-size-height: 360px;
 }
+
 @media screen and (min-width: 1280px) {
-  .map {
-    --map-size-height: 500px;
+  .root {
+    --map-size-height: 360px;
   }
 }
 @media screen and (min-width: 1920px) {
-  .map {
-    --map-size-height: 580px;
+  .root {
+    --map-size-height: 480px;
   }
+}
+
+.map {
+  width: 100%;
+  height: var(--map-size-height);
+}
+
+.chart {
+  width: 100%;
+  height: var(--map-size-height);
+}
+
+.body {
+  --ant-card-body-padding: 14px;
 }

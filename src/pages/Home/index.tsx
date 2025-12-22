@@ -1,12 +1,15 @@
-import { Card, Flex } from 'antd';
+import { Card, Col, Flex, Grid, Row } from 'antd';
 import jsVectorMap from 'jsvectormap';
 import 'jsvectormap/dist/jsvectormap.min.css';
 import 'jsvectormap/dist/maps/world.js';
 import { useEffect, useRef } from 'react';
 import classes from './style.module.css';
+const { useBreakpoint } = Grid;
 
 export default function Home() {
   const map = useRef<typeof jsVectorMap>(null);
+
+  const screens = useBreakpoint();
 
   useEffect(() => {
     const el = document.querySelector('#map') as HTMLDivElement;
@@ -91,10 +94,21 @@ export default function Home() {
   }, []);
 
   return (
-    <Flex vertical>
-      <Card>
-        <div id='map' className={classes.map}></div>
-      </Card>
+    <Flex vertical className={classes.root}>
+      <Row gutter={[12, 12]}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={12} order={screens.xl ? 2 : 1}>
+          <Card classNames={{ body: classes.body }}>
+            <Card.Meta title='Location' />
+            <div id='map' className={classes.map}></div>
+          </Card>
+        </Col>
+        <Col xs={24} sm={24} md={24} lg={24} xl={12} order={screens.xl ? 1 : 2}>
+          <Card classNames={{ body: classes.body }}>
+            <Card.Meta title='Summary' />
+            <div id='chart' className={classes.chart}></div>
+          </Card>
+        </Col>
+      </Row>
     </Flex>
   );
 }
