@@ -19,14 +19,18 @@ export default function Home() {
       draggable: false,
       showTooltip: true,
       zoomButtons: false,
-      regionStyle: {},
+      regionStyle: {
+        selected: {
+          fill: '#73d13d',
+        },
+      },
       selectedRegions: [],
-      regionsSelectable: false,
+      regionsSelectable: true,
+      regionsSelectableOne: true,
       markers: [
         { name: 'Egypt', coords: [26.8, 30.8] },
         { name: 'Russia', coords: [56.1304, 106.3468] },
         { name: 'Ukraine', coords: [48.379433, 31.16558] },
-        { name: 'China', coords: [35.8, 104.1] },
         { name: 'China', coords: [35.8, 104.1] },
       ],
       lineStyle: {
@@ -57,7 +61,7 @@ export default function Home() {
     map.current.addLines([
       { from: 'Russia', to: 'China' },
       { from: 'Egypt', to: 'China' },
-      { from: 'US', to: 'China' },
+      { from: 'Ukraine', to: 'China' },
     ]);
 
     console.log(map.current);
