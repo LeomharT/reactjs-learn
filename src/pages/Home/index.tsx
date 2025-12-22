@@ -21,12 +21,12 @@ export default function Home() {
       zoomButtons: false,
       regionStyle: {
         selected: {
-          fill: '#73d13d',
+          fill: '#c41d7f',
         },
       },
       selectedRegions: [],
-      regionsSelectable: true,
-      regionsSelectableOne: true,
+      regionsSelectable: false,
+      regionsSelectableOne: false,
       markers: [
         { name: 'Egypt', coords: [26.8, 30.8] },
         { name: 'Russia', coords: [56.1304, 106.3468] },
@@ -64,6 +64,18 @@ export default function Home() {
       { from: 'Ukraine', to: 'China' },
     ]);
 
+    map.current.params.onRegionClick = (e: PointerEvent, code: string) => {
+      e.stopPropagation();
+
+      const selectedRegions = map.current.getSelectedRegions();
+
+      if (selectedRegions[0] === code) {
+        map.current.setSelectedRegions([]);
+      } else {
+        map.current.setSelectedRegions([code]);
+      }
+    };
+
     console.log(map.current);
 
     const observer = new ResizeObserver(() => {
@@ -74,6 +86,7 @@ export default function Home() {
 
     return () => {
       observer.disconnect();
+      map.current.params.onRegionClick = null;
     };
   }, []);
 
