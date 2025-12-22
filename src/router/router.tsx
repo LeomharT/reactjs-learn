@@ -5,7 +5,7 @@ import {
   Navigate,
   Route,
 } from 'react-router';
-import App from '../app';
+import AppShell from '../app';
 import NotFound from '../pages/NotFound';
 
 const Home = lazy(() => import('../pages/Home'));
@@ -14,7 +14,7 @@ const DemoUseTransition = lazy(() => import('../pages/DemoUseTransition'));
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<App />}>
+    <Route path='/' element={<AppShell />}>
       <Route index element={<Navigate to={'home'} />} />
       <Route path='home' element={<Home />} />
       <Route path='hooks' handle={{ label: 'hooks' }}>

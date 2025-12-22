@@ -27,6 +27,7 @@ export default function Home() {
         { name: 'Russia', coords: [56.1304, 106.3468] },
         { name: 'Ukraine', coords: [48.379433, 31.16558] },
         { name: 'China', coords: [35.8, 104.1] },
+        { name: 'China', coords: [35.8, 104.1] },
       ],
       lineStyle: {
         strokeDasharray: '6 3',
@@ -56,6 +57,7 @@ export default function Home() {
     map.current.addLines([
       { from: 'Russia', to: 'China' },
       { from: 'Egypt', to: 'China' },
+      { from: 'US', to: 'China' },
     ]);
 
     console.log(map.current);

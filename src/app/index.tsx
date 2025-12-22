@@ -1,11 +1,11 @@
-import { App as AntApp, ConfigProvider, Layout, theme } from 'antd';
+import { App, ConfigProvider, Layout, theme } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import { useEffect, useRef, useState } from 'react';
 import AppContent from './AppContent';
 import AppHeader from './AppHeader';
 import AppSider from './AppSider';
 
-export default function App() {
+export default function AppShell() {
   const ref = useRef(document.querySelector(':root'));
 
   const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
@@ -30,7 +30,7 @@ export default function App() {
           colorScheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
       }}
     >
-      <AntApp>
+      <App>
         <Layout>
           <AppHeader
             colorScheme={colorScheme}
@@ -41,7 +41,7 @@ export default function App() {
             <AppContent />
           </Layout>
         </Layout>
-      </AntApp>
+      </App>
     </ConfigProvider>
   );
 }
