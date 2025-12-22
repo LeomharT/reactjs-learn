@@ -9,6 +9,7 @@ import AppShell from '../app';
 import NotFound from '../pages/NotFound';
 
 const Home = lazy(() => import('../pages/Home'));
+const DemoUse = lazy(() => import('../pages/DemoUse'));
 const DemoUseOptimistic = lazy(() => import('../pages/DemoUseOptimistic'));
 const DemoUseTransition = lazy(() => import('../pages/DemoUseTransition'));
 
@@ -19,13 +20,12 @@ export const router = createBrowserRouter(
       <Route path='home' element={<Home />} />
       <Route path='hooks' handle={{ label: 'hooks' }}>
         <Route index element={<Navigate to='useOptimistic' />} />
+        <Route path='use' handle={{ label: 'use' }} element={<DemoUse />} />
         <Route
           path='useOptimistic'
           handle={{ label: 'useOptimistic' }}
           element={<DemoUseOptimistic />}
-        >
-          <Route path='ok' element='ok' />
-        </Route>
+        />
         <Route
           path='useTransition'
           handle={{ label: 'useTransition' }}

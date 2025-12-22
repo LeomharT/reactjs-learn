@@ -42,13 +42,7 @@ export default function AppSider() {
       <Button
         shape='circle'
         size='small'
-        icon={
-          collapsed ? (
-            <RightOutlined style={{ fontSize: 10 }} />
-          ) : (
-            <LeftOutlined style={{ fontSize: 10 }} />
-          )
-        }
+        icon={collapsed ? <RightOutlined /> : <LeftOutlined />}
         className={classes.button}
         onClick={() => setCollapsed((prev) => !prev)}
       />

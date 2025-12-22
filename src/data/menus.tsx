@@ -13,6 +13,10 @@ export const items: MenuProps['items'] = [
     icon: <QuestionOutlined style={{ transform: 'rotate(180deg)' }} />,
     children: [
       {
+        key: '/hooks/use',
+        label: 'use',
+      },
+      {
         key: '/hooks/useOptimistic',
         label: 'useOptimistic',
       },
