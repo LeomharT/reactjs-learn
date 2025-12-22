@@ -1,11 +1,16 @@
 .map {
-  --map-size-height: 580px;
+  --map-size-height: 380px;
 
   width: 100%;
   height: var(--map-size-height);
 }
-@media screen and (max-width: 1080px) {
+@media screen and (min-width: 1280px) {
   .map {
-    --map-size-height: 380px;
+    --map-size-height: 500px;
+  }
+}
+@media screen and (min-width: 1920px) {
+  .map {
+    --map-size-height: 580px;
   }
 }

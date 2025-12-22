@@ -53,7 +53,10 @@ export default function AppContent() {
       <Suspense key={location.pathname} fallback={<Fallback />}>
         <ErrorBoundary>
           <Breadcrumb items={getItems()} />
-          <Typography.Title level={3}>
+          <Typography.Title
+            level={3}
+            hidden={!matches[matches.length - 1]?.handle}
+          >
             {(matches[matches.length - 1]?.handle as { label?: string })?.label}
           </Typography.Title>
           <Outlet />

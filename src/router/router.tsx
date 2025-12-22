@@ -16,7 +16,7 @@ export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route index element={<Navigate to={'home'} />} />
-      <Route path='home' handle={{ label: 'Home' }} element={<Home />} />
+      <Route path='home' element={<Home />} />
       <Route path='hooks' handle={{ label: 'hooks' }}>
         <Route index element={<Navigate to='useOptimistic' />} />
         <Route
