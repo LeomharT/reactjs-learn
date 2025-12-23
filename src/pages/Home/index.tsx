@@ -4,6 +4,8 @@ import 'jsvectormap/dist/jsvectormap.min.css';
 import 'jsvectormap/dist/maps/world.js';
 import { useEffect, useRef, useState } from 'react';
 import Charts from 'react-apexcharts';
+import Loader from '../../components/Loader';
+import { sleep } from '../../utils/sleep';
 import classes from './style.module.css';
 const { useBreakpoint } = Grid;
 
@@ -15,6 +17,8 @@ export default function Home() {
   const map = useRef<typeof jsVectorMap>(null);
 
   const screens = useBreakpoint();
+
+  const [isFetching, setIsFetching] = useState(false);
 
   const [chartData, setChartData] = useState([
     randomData(),
@@ -35,17 +39,17 @@ export default function Home() {
       zoomButtons: false,
       regionStyle: {
         selected: {
-          fill: '#c41d7f',
+          fill: '#73d13d',
         },
       },
       selectedRegions: [],
       regionsSelectable: false,
       regionsSelectableOne: false,
       markers: [
+        { name: 'China', coords: [35.8, 104.1] },
         { name: 'Egypt', coords: [26.8, 30.8] },
         { name: 'Russia', coords: [56.1304, 106.3468] },
         { name: 'Ukraine', coords: [48.379433, 31.16558] },
-        { name: 'China', coords: [35.8, 104.1] },
       ],
       lineStyle: {
         strokeDasharray: '6 3',
@@ -78,7 +82,7 @@ export default function Home() {
       { from: 'Ukraine', to: 'China' },
     ]);
 
-    map.current.params.onRegionClick = (e: PointerEvent, code: string) => {
+    async function handleOnRegionClick(e: PointerEvent, code: string) {
       e.stopPropagation();
 
       const selectedRegions = map.current.getSelectedRegions();
@@ -86,10 +90,20 @@ export default function Home() {
       if (selectedRegions[0] === code) {
         map.current.setSelectedRegions([]);
       } else {
+        setIsFetching(true);
+
+        map.current.params.onRegionClick = null;
         map.current.setSelectedRegions([code]);
+
+        await sleep(2000);
+
+        setIsFetching(false);
         setChartData([randomData(), randomData(), randomData()]);
+        map.current.params.onRegionClick = handleOnRegionClick;
       }
-    };
+    }
+
+    map.current.params.onRegionClick = handleOnRegionClick;
 
     console.log(map.current);
 
@@ -117,65 +131,66 @@ export default function Home() {
         <Col xs={24} sm={24} md={24} lg={24} xl={12} order={screens.xl ? 1 : 2}>
           <Card classNames={{ body: classes.body }}>
             <Card.Meta title='Summary' />
-            <div id='chart' className={classes.chart}>
-              <Charts
-                type='bar'
-                height='100%'
-                options={{
-                  chart: {
-                    type: 'bar',
-                    stacked: true,
-                    stackType: 'normal',
-                    toolbar: {
+            <Loader size='large' spinning={isFetching}>
+              <div id='chart' className={classes.chart}>
+                <Charts
+                  type='bar'
+                  height='100%'
+                  options={{
+                    chart: {
+                      type: 'bar',
+                      stacked: true,
+                      stackType: 'normal',
+                      toolbar: {
+                        show: false,
+                      },
+                      animations: {
+                        enabled: true,
+                      },
+                    },
+                    legend: {
                       show: false,
                     },
-                    animations: {
+                    tooltip: {
                       enabled: true,
                     },
-                  },
-                  legend: {
-                    show: false,
-                  },
-                  tooltip: {
-                    enabled: true,
-                  },
-                  plotOptions: {
-                    bar: {
-                      horizontal: false,
+                    plotOptions: {
+                      bar: {
+                        horizontal: false,
+                      },
                     },
-                  },
-                  dataLabels: {
-                    enabled: false,
-                  },
-                  xaxis: {
-                    type: 'datetime',
-                    categories: Array.from(
-                      { length: 31 },
-                      (_, k) => `${k + 1}Dec`
-                    ),
-                  },
-                  yaxis: {
-                    max: 100,
-                  },
-
-                  colors: ['#0958d9', '#1d39c4', '#73d13d'],
-                }}
-                series={[
-                  {
-                    name: 'PRODUCT A',
-                    data: chartData[0],
-                  },
-                  {
-                    name: 'PRODUCT B',
-                    data: chartData[1],
-                  },
-                  {
-                    name: 'PRODUCT C',
-                    data: chartData[2],
-                  },
-                ]}
-              />
-            </div>
+                    dataLabels: {
+                      enabled: false,
+                    },
+                    xaxis: {
+                      type: 'datetime',
+                      categories: Array.from(
+                        { length: 31 },
+                        (_, k) => `${k + 1}December`
+                      ),
+                    },
+                    yaxis: {
+                      max: 100,
+                    },
+                    colors: ['#1d39c4', '#0958d9', '#73d13d'],
+                  }}
+                  series={[
+                    {
+                      name: 'PRODUCT A',
+                      data: chartData[0],
+                    },
+                    {
+                      name: 'PRODUCT B',
+                      data: chartData[1],
+                    },
+                    {
+                      name: 'PRODUCT C',
+                      data: chartData[2],
+                    },
+                  ]}
+                />
+              </div>
+            </Loader>
           </Card>
         </Col>
       </Row>
