@@ -157,6 +157,7 @@ export default function Home() {
                     plotOptions: {
                       bar: {
                         horizontal: false,
+                        columnWidth: '50%',
                       },
                     },
                     dataLabels: {
@@ -171,6 +172,9 @@ export default function Home() {
                     },
                     yaxis: {
                       max: 100,
+                    },
+                    grid: {
+                      strokeDashArray: 3,
                     },
                     colors: ['#1d39c4', '#0958d9', '#73d13d'],
                   }}
