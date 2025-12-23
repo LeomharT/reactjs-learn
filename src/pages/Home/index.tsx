@@ -2,14 +2,25 @@ import { Card, Col, Flex, Grid, Row } from 'antd';
 import jsVectorMap from 'jsvectormap';
 import 'jsvectormap/dist/jsvectormap.min.css';
 import 'jsvectormap/dist/maps/world.js';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Charts from 'react-apexcharts';
 import classes from './style.module.css';
 const { useBreakpoint } = Grid;
+
+function randomData(): number[] {
+  return Array.from({ length: 31 }, () => Math.round(Math.random() * 33 + 1));
+}
 
 export default function Home() {
   const map = useRef<typeof jsVectorMap>(null);
 
   const screens = useBreakpoint();
+
+  const [chartData, setChartData] = useState([
+    randomData(),
+    randomData(),
+    randomData(),
+  ]);
 
   useEffect(() => {
     const el = document.querySelector('#map') as HTMLDivElement;
@@ -76,6 +87,7 @@ export default function Home() {
         map.current.setSelectedRegions([]);
       } else {
         map.current.setSelectedRegions([code]);
+        setChartData([randomData(), randomData(), randomData()]);
       }
     };
 
@@ -105,7 +117,65 @@ export default function Home() {
         <Col xs={24} sm={24} md={24} lg={24} xl={12} order={screens.xl ? 1 : 2}>
           <Card classNames={{ body: classes.body }}>
             <Card.Meta title='Summary' />
-            <div id='chart' className={classes.chart}></div>
+            <div id='chart' className={classes.chart}>
+              <Charts
+                type='bar'
+                height='100%'
+                options={{
+                  chart: {
+                    type: 'bar',
+                    stacked: true,
+                    stackType: 'normal',
+                    toolbar: {
+                      show: false,
+                    },
+                    animations: {
+                      enabled: true,
+                    },
+                  },
+                  legend: {
+                    show: false,
+                  },
+                  tooltip: {
+                    enabled: true,
+                  },
+                  plotOptions: {
+                    bar: {
+                      horizontal: false,
+                    },
+                  },
+                  dataLabels: {
+                    enabled: false,
+                  },
+                  xaxis: {
+                    type: 'datetime',
+                    categories: Array.from(
+                      { length: 31 },
+                      (_, k) => `${k + 1}Dec`
+                    ),
+                  },
+                  yaxis: {
+                    max: 100,
+                  },
+
+                  colors: ['#0958d9', '#1d39c4', '#73d13d'],
+                }}
+                series={[
+                  {
+                    name: 'PRODUCT A',
+                    data: chartData[0],
+                  },
+                  {
+                    name: 'PRODUCT B',
+                    data: chartData[1],
+                  },
+                  {
+                    name: 'PRODUCT C',
+                    data: chartData[2],
+                  },
+                ]}
+              />
+            </div>
           </Card>
         </Col>
       </Row>
