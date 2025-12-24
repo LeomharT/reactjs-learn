@@ -1,11 +1,14 @@
+import { DownOutlined } from '@ant-design/icons';
 import {
   Avatar,
   Button,
   Card,
   Col,
   Divider,
+  Flex,
   Form,
   Input,
+  Progress,
   Row,
   Space,
   Typography,
@@ -14,6 +17,7 @@ import { useForm } from 'antd/es/form/Form';
 import { startTransition, useOptimistic, useState } from 'react';
 import Loader from '../../components/Loader';
 import data from './data.json';
+import classes from './style.module.css';
 
 type ListType = {
   id: string;
@@ -58,7 +62,7 @@ export default function DemoUseOptimistic() {
   }
 
   return (
-    <Card>
+    <Card title='useOptimistic hook'>
       <Space>
         <Form form={form} layout='inline' onFinish={updateList}>
           <Form.Item name='input' rules={[{ required: true }]}>
@@ -70,11 +74,11 @@ export default function DemoUseOptimistic() {
         </Form>
       </Space>
       <Divider />
-      <Row>
-        {optimisticList.map((item) => (
-          <Col key={item.id} span={24}>
-            <div>
-              <Loader spinning={!!item?.loading}>
+      {optimisticList.map((item) => (
+        <Row key={item.id}>
+          <Col className={classes.item}>
+            <Loader spinning={!!item?.loading}>
+              <Flex justify='space-between'>
                 <Space size='middle'>
                   <Avatar
                     size={48}
@@ -82,18 +86,61 @@ export default function DemoUseOptimistic() {
                     src={`https://skillicons.dev/icons?i=${item.title}&theme=light`}
                   />
                   <Space vertical size={0}>
-                    <a href='#'>{item.title}</a>
+                    <Typography.Text strong>
+                      <a href='#'>{item.title.toUpperCase()}</a>
+                    </Typography.Text>
                     <Typography.Text type='secondary'>
                       {item.description}
                     </Typography.Text>
                   </Space>
                 </Space>
-              </Loader>
-            </div>
-            <Divider size='middle' />
+                <Space>
+                  <Space size={40}>
+                    <Space vertical>
+                      <Typography.Text>Onwer</Typography.Text>
+                      <Typography.Text>Leo</Typography.Text>
+                    </Space>
+                    <Space vertical>
+                      <Typography.Text>开始时间</Typography.Text>
+                      <Typography.Text>
+                        {Intl.DateTimeFormat('zh-CN', {
+                          dateStyle: 'full',
+                        }).format(new Date())}
+                      </Typography.Text>
+                    </Space>
+                    <Progress
+                      status='exception'
+                      percentPosition={{ align: 'start', type: 'outer' }}
+                      styles={{
+                        body: {
+                          width: 180,
+                        },
+                        rail: {
+                          visibility: 'hidden',
+                        },
+                      }}
+                    />
+                  </Space>
+                  <Space.Compact>
+                    <Button size='small' type='text'>
+                      编辑
+                    </Button>
+                    <Button
+                      size='small'
+                      type='text'
+                      icon={<DownOutlined />}
+                      iconPlacement='end'
+                    >
+                      更多
+                    </Button>
+                  </Space.Compact>
+                </Space>
+              </Flex>
+            </Loader>
           </Col>
-        ))}
-      </Row>
+          <Divider size='middle' />
+        </Row>
+      ))}
     </Card>
   );
 }

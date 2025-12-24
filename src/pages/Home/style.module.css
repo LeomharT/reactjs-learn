@@ -9,7 +9,7 @@
 }
 @media screen and (min-width: 1920px) {
   .root {
-    --map-size-height: 480px;
+    --map-size-height: 380px;
   }
 }
 
