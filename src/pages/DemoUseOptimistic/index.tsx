@@ -14,7 +14,7 @@ import {
   Typography,
 } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { startTransition, useOptimistic, useState } from 'react';
+import { Fragment, startTransition, useOptimistic, useState } from 'react';
 import Loader from '../../components/Loader';
 import data from './data.json';
 import classes from './style.module.css';
@@ -79,7 +79,7 @@ function Thread({ list, sendListItem }: ThreadProps) {
   }
 
   return (
-    <div>
+    <Fragment>
       <Space>
         <Form form={form} layout='inline' onFinish={updateList}>
           <Form.Item name='input' rules={[{ required: true }]}>
@@ -158,7 +158,7 @@ function Thread({ list, sendListItem }: ThreadProps) {
           <Divider size='middle' />
         </Row>
       ))}
-    </div>
+    </Fragment>
   );
 }
 
