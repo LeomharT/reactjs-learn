@@ -30,9 +30,28 @@ type OptimisticListType = ListType & {
 };
 
 export default function DemoUseOptimistic() {
-  const [form] = useForm();
-
   const [list, setList] = useState<ListType[]>(data);
+
+  function updateList(item: ListType) {
+    startTransition(() => {
+      setList((prev) => [...prev, item]);
+    });
+  }
+
+  return (
+    <Card title='useOptimistic hook'>
+      <Thread list={list} sendListItem={updateList} />
+    </Card>
+  );
+}
+
+type ThreadProps = {
+  list: ListType[];
+  sendListItem: (data: ListType) => void;
+};
+
+function Thread({ list, sendListItem }: ThreadProps) {
+  const [form] = useForm();
 
   const [optimisticList, setOptimisticList] =
     useOptimistic<OptimisticListType[]>(list);
@@ -49,20 +68,18 @@ export default function DemoUseOptimistic() {
       description,
     };
 
-    startTransition(() => {
-      setOptimisticList((list) => [...list, optimisticItem]);
-    });
-
     startTransition(async () => {
+      setOptimisticList((prevList) => [...prevList, optimisticItem]);
+
       const newItem = await createItem(data.input);
       newItem.description = description;
 
-      setList((list) => [...list, newItem]);
+      sendListItem(newItem);
     });
   }
 
   return (
-    <Card title='useOptimistic hook'>
+    <div>
       <Space>
         <Form form={form} layout='inline' onFinish={updateList}>
           <Form.Item name='input' rules={[{ required: true }]}>
@@ -141,7 +158,7 @@ export default function DemoUseOptimistic() {
           <Divider size='middle' />
         </Row>
       ))}
-    </Card>
+    </div>
   );
 }
 
