@@ -1,5 +1,5 @@
 import { App, ConfigProvider, Layout, theme } from 'antd';
-import zhCN from 'antd/locale/zh_CN';
+import enUS from 'antd/locale/en_US';
 import { useEffect, useRef, useState } from 'react';
 import AppContent from './AppContent';
 import AppHeader from './AppHeader';
@@ -23,7 +23,7 @@ export default function AppShell() {
 
   return (
     <ConfigProvider
-      locale={zhCN}
+      locale={enUS}
       theme={{
         cssVar: {},
         algorithm:

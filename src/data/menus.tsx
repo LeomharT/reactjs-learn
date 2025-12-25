@@ -1,4 +1,8 @@
-import { HomeOutlined, QuestionOutlined } from '@ant-design/icons';
+import {
+  AppstoreAddOutlined,
+  HomeOutlined,
+  QuestionOutlined,
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 
 export const items: MenuProps['items'] = [
@@ -25,5 +29,11 @@ export const items: MenuProps['items'] = [
         label: 'useTransition',
       },
     ],
+  },
+  {
+    key: '/examples',
+    label: 'Example',
+    icon: <AppstoreAddOutlined />,
+    children: [{ key: '/examples/streamPlayer', label: 'StreamPlayer' }],
   },
 ];
