@@ -1,5 +1,5 @@
 import { PlayCircleOutlined } from '@ant-design/icons';
-import { Button, Card, Divider, Form, Input, Select } from 'antd';
+import { App, Button, Card, Divider, Form, Input, Select } from 'antd';
 import flvjs from 'flv.js';
 import { useEffect, useRef } from 'react';
 import classes from './style.module.css';
@@ -17,6 +17,8 @@ type FormValue = {
 };
 
 export default function StreamPlayer() {
+  const { message } = App.useApp();
+
   const [form] = Form.useForm<FormValue>();
 
   const video = useRef<HTMLVideoElement>(null);
@@ -30,9 +32,13 @@ export default function StreamPlayer() {
     if (e.type === 'FLV') {
       playFLVStream(e.url, video.current);
     }
+    if (e.type === 'HLS') {
+      playHLSStream(e.url, video.current);
+    }
   }
 
   function autoPlay() {
+    message.success('Ready to go');
     video.current?.play();
   }
 
@@ -111,7 +117,6 @@ async function playWebRTCStream(url: string, video: HTMLVideoElement) {
 }
 
 function playFLVStream(url: string, video: HTMLVideoElement) {
-  console.log(flvjs);
   if (flvjs.isSupported()) {
     const flvPlayer = flvjs.createPlayer({
       type: 'flv',
@@ -121,4 +126,8 @@ function playFLVStream(url: string, video: HTMLVideoElement) {
     flvPlayer.load();
     flvPlayer.play();
   }
+}
+
+function playHLSStream(url: string, video: HTMLVideoElement) {
+  video.src = url;
 }
