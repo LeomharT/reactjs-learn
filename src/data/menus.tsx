@@ -1,8 +1,4 @@
-import {
-  AppstoreAddOutlined,
-  HomeOutlined,
-  QuestionOutlined,
-} from '@ant-design/icons';
+import { AppstoreAddOutlined, HomeOutlined, QuestionOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 
 export const items: MenuProps['items'] = [
@@ -27,6 +23,10 @@ export const items: MenuProps['items'] = [
       {
         key: '/hooks/useTransition',
         label: 'useTransition',
+      },
+      {
+        key: '/hooks/useDeferredValue',
+        label: 'useDeferredValue',
       },
     ],
   },
