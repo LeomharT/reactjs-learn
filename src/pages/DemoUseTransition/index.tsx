@@ -34,11 +34,7 @@ export default function DemoUseTransition() {
         onChange={handleOnChange}
         placeholder='Insert Value Here'
       />
-      {loading ? (
-        <Loader />
-      ) : (
-        list.map((item, index) => <div key={index}>{item}</div>)
-      )}
+      {loading ? <Loader /> : list.map((item, index) => <div key={index}>{item}</div>)}
     </Card>
   );
 }
