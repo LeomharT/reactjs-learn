@@ -1,5 +1,5 @@
 import { Card, Flex, Input } from 'antd';
-import { memo, Suspense, useDeferredValue, useState, type JSX } from 'react';
+import { memo, useDeferredValue, useState, type JSX } from 'react';
 
 export default function DemoUseDeferredValue() {
   const [search, setSearch] = useState('');
@@ -15,15 +15,13 @@ export default function DemoUseDeferredValue() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <Suspense fallback={<h2>Loading...</h2>}>
-          <ShowList text={deferredValue} />
-        </Suspense>
+        <ShowList text={deferredValue} />
       </Flex>
     </Card>
   );
 }
 
-const ShowList = memo(function S({ text }: { text: string }) {
+const ShowList = memo(function ({ text }: { text: string }) {
   // Log once. The actual slowdown is inside SlowItem.
   console.log('[ARTIFICIALLY SLOW] Rendering 250 <SlowItem />');
 
