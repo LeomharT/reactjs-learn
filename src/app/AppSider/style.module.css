@@ -9,3 +9,17 @@
   right: -12px;
   top: 12px;
 }
+
+.root {
+  --ant-menu-item-active-bg: light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.04)) !important;
+  --ant-menu-item-selected-bg: light-dark(
+    rgba(0, 0, 0, 0.04),
+    rgba(255, 255, 255, 0.08)
+  ) !important;
+  --ant-menu-item-selected-color: light-dark(
+    rgba(0, 0, 0, 0.95),
+    rgba(255, 255, 255, 0.95)
+  ) !important;
+  --ant-menu-item-color: light-dark(rgba(0, 0, 0, 0.65), rgba(255, 255, 255, 0.65)) !important;
+  background: transparent;
+}

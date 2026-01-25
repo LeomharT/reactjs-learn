@@ -11,9 +11,7 @@ export default function AppSider() {
 
   const [selectedKeys] = useState<string[]>([location.pathname]);
 
-  const [openedKeys] = useState<string[]>(
-    setDefaultOpenedKeys(location.pathname)
-  );
+  const [openedKeys] = useState<string[]>(setDefaultOpenedKeys(location.pathname));
 
   const { token } = theme.useToken();
 
@@ -34,6 +32,7 @@ export default function AppSider() {
     >
       <Menu
         mode='inline'
+        classNames={{ root: classes.root }}
         defaultOpenKeys={openedKeys}
         defaultSelectedKeys={selectedKeys}
         items={items}

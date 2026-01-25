@@ -1,7 +1,13 @@
 @import url('antd/dist/reset.css');
 
 :root {
-  --main-content-max-height: calc(
-    100vh - 64px - 24px - 24px - 22px - 32px - 12px
-  );
+  --main-content-max-height: calc(100vh - 64px - 24px - 24px - 22px - 32px - 12px);
+
+  &[color-scheme='light'] {
+    color-scheme: light;
+  }
+
+  &[color-scheme='dark'] {
+    color-scheme: dark;
+  }
 }

@@ -1,5 +1,6 @@
 .root {
   --map-size-height: 360px;
+  max-width: 1304px;
 }
 
 @media screen and (min-width: 1280px) {
