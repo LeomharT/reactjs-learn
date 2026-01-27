@@ -10,6 +10,7 @@ const DemoUseTransition = lazy(() => import('../pages/DemoUseTransition'));
 const DemoUseDeferredValue = lazy(() => import('../pages/DemoUseDeferredValue'));
 
 const StreamPlayer = lazy(() => import('../pages/StreamPlayer'));
+const AudioPlayer = lazy(() => import('../pages/AudioPlayer'));
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,8 +39,9 @@ export const router = createBrowserRouter(
       <Route path='examples' handle={{ label: 'example' }}>
         <Route index element={<Navigate to={'streamPlayer'} />} />
         <Route path='streamPlayer' handle={{ label: 'StreamPlayer' }} element={<StreamPlayer />} />
+        <Route path='audioPlayer' handle={{ label: 'AudioPlayer' }} element={<AudioPlayer />} />
       </Route>
       <Route path='*' handle={{ label: '404' }} element={<NotFound />} />
-    </Route>
-  )
+    </Route>,
+  ),
 );

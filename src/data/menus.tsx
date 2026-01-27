@@ -34,6 +34,9 @@ export const items: MenuProps['items'] = [
     key: '/examples',
     label: 'Example',
     icon: <AppstoreAddOutlined />,
-    children: [{ key: '/examples/streamPlayer', label: 'StreamPlayer' }],
+    children: [
+      { key: '/examples/streamPlayer', label: 'StreamPlayer' },
+      { key: '/examples/audioPlayer', label: 'AudioPlayer' },
+    ],
   },
 ];
