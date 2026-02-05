@@ -37,6 +37,7 @@ export const items: MenuProps['items'] = [
     children: [
       { key: '/examples/streamPlayer', label: 'StreamPlayer' },
       { key: '/examples/audioPlayer', label: 'AudioPlayer' },
+      { key: '/examples/apexchartLineChart', label: 'ApexchartLineChart' },
     ],
   },
 ];

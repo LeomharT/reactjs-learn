@@ -11,6 +11,7 @@ const DemoUseDeferredValue = lazy(() => import('../pages/DemoUseDeferredValue'))
 
 const StreamPlayer = lazy(() => import('../pages/StreamPlayer'));
 const AudioPlayer = lazy(() => import('../pages/AudioPlayer'));
+const ApexchartLineChart = lazy(() => import('../pages/ApexchartLineChart'));
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,6 +41,11 @@ export const router = createBrowserRouter(
         <Route index element={<Navigate to={'streamPlayer'} />} />
         <Route path='streamPlayer' handle={{ label: 'StreamPlayer' }} element={<StreamPlayer />} />
         <Route path='audioPlayer' handle={{ label: 'AudioPlayer' }} element={<AudioPlayer />} />
+        <Route
+          path='apexchartLineChart'
+          handle={{ label: 'ApexchartLineChart' }}
+          element={<ApexchartLineChart />}
+        />
       </Route>
       <Route path='*' handle={{ label: '404' }} element={<NotFound />} />
     </Route>,
