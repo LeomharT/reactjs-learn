@@ -6,6 +6,15 @@ const theme = {
   textColor: '#cecdc9',
 };
 
+function generateRandomDataSeries(length: number = 1) {
+  const data: number[] = [];
+  for (let i = 0; i < length; i++) {
+    const number = Math.floor(Math.random() * 10 + 1);
+    data.push(number);
+  }
+  return data;
+}
+
 export default function ApexchartLineChart() {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -99,10 +108,16 @@ export default function ApexchartLineChart() {
       },
       series: [
         {
-          data: [1, 3, 4, 5, 6, 7, 6, 1, 2],
+          data: generateRandomDataSeries(10),
         },
         {
-          data: [3, 2, 6, 5, 7, 1, 2, 4, 2],
+          data: generateRandomDataSeries(10),
+        },
+        {
+          data: generateRandomDataSeries(10),
+        },
+        {
+          data: generateRandomDataSeries(10),
         },
       ],
     } as ApexOptions);
