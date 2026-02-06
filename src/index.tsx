@@ -9,5 +9,5 @@ const root = createRoot(document.querySelector('#root') as HTMLDivElement);
 root.render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>
+  </StrictMode>,
 );

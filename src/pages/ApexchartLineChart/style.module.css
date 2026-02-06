@@ -1,0 +1,23 @@
+.tooltip {
+  --palette-background-defaultChannel: 20 26 33;
+  --customShadows-dropdown: 0 0 2px 0 rgba(0 0 0 / 24%), -20px 20px 40px -4px rgba(0 0 0 / 24%);
+
+  color: #ffffff;
+  background-color: rgba(var(--palette-background-defaultChannel) / 0.9) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  backdrop-filter: blur(6px);
+  box-shadow: var(--customShadows-dropdown) !important;
+
+  & :global(.apexcharts-tooltip-title) {
+    color: #919eab;
+    background-color: #28323d !important;
+    text-align: center;
+    font-weight: 700;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: none !important;
+    padding: 6px;
+    margin-bottom: 4px;
+  }
+}

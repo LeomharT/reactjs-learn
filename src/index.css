@@ -11,3 +11,38 @@
     color-scheme: dark;
   }
 }
+
+.apexcharts-canvas .apexcharts-xaxistooltip,
+.apexcharts-canvas .apexcharts-yaxistooltip {
+  --palette-background-defaultChannel: 20 26 33;
+  --palette-grey-500Channel: 145 158 171;
+
+  border-radius: 10px;
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow:
+    0 0 2px 0 rgba(0 0 0 / 24%),
+    -20px 20px 40px -4px rgba(0 0 0 / 24%);
+  background-color: rgba(var(--palette-background-defaultChannel) / 0.9);
+  backdrop-filter: blur(6px);
+}
+
+.apexcharts-canvas .apexcharts-xaxistooltip {
+  &::before {
+    border-bottom-color: rgba(var(--palette-grey-500Channel) / 0.16);
+  }
+
+  &::after {
+    border-bottom-color: rgba(var(--palette-background-defaultChannel) / 0.9);
+  }
+}
+
+.apexcharts-canvas .apexcharts-yaxistooltip {
+  &::before {
+    border-left-color: rgba(var(--palette-grey-500Channel) / 0.16);
+  }
+
+  &::after {
+    border-left-color: rgba(var(--palette-background-defaultChannel) / 0.9);
+  }
+}
