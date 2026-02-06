@@ -1,4 +1,4 @@
-import { Card } from 'antd';
+import { Button, Card, Divider, Space } from 'antd';
 import Charts, { type ApexOptions } from 'apexcharts';
 import { useEffect, useRef } from 'react';
 import classes from './style.module.css';
@@ -6,12 +6,21 @@ import classes from './style.module.css';
 const theme = {
   textColor: '#cecdc9',
 };
+const XAXISRANGE = 9000;
+const TICKINTERVAL = 1000;
 
 function generateRandomDataSeries(length: number = 1) {
-  const data: number[] = [];
+  let date = Math.floor(Date.now() / 1000) * 1000;
+
+  const data: { x: number; y: number }[] = [];
+
   for (let i = 0; i < length; i++) {
-    const number = Math.floor(Math.random() * 5 + 3);
-    data.push(number);
+    const x = date + i * TICKINTERVAL;
+    const y = Math.floor(Math.random() * 5 + 3);
+    data.push({
+      x,
+      y,
+    });
   }
   return data;
 }
@@ -20,6 +29,19 @@ export default function ApexchartLineChart() {
   const ref = useRef<HTMLDivElement>(null);
 
   const chartRef = useRef<Charts>(null);
+
+  const dataSeries = useRef({
+    ['Pitch']: generateRandomDataSeries(10),
+    ['Roll']: generateRandomDataSeries(10),
+    ['Yaw']: generateRandomDataSeries(10),
+    ['Height']: generateRandomDataSeries(10),
+    ['Pitch-filter']: generateRandomDataSeries(10),
+    ['Roll-filter']: generateRandomDataSeries(10),
+    ['Yaw-filter']: generateRandomDataSeries(10),
+    ['Acc-X']: generateRandomDataSeries(10),
+    ['Acc-Y']: generateRandomDataSeries(10),
+    ['Acc-Z']: generateRandomDataSeries(10),
+  });
 
   async function initialChart() {
     if (!ref.current) throw new Error('Element not found');
@@ -38,12 +60,16 @@ export default function ApexchartLineChart() {
         height: 550,
         animations: {
           enabled: true,
+          easing: 'linear',
           dynamicAnimation: {
             speed: 1000,
           },
         },
         toolbar: {
           show: false,
+        },
+        zoom: {
+          enabled: false,
         },
         background: '#1f2937',
       },
@@ -74,13 +100,14 @@ export default function ApexchartLineChart() {
         stepSize: 2,
       },
       xaxis: {
-        type: 'category',
-        tickAmount: 10,
+        type: 'datetime',
+        range: XAXISRANGE,
         labels: {
           style: {
             colors: theme.textColor,
             fontSize: '14px',
           },
+          datetimeUTC: false,
         },
         axisBorder: {
           show: false,
@@ -113,56 +140,36 @@ export default function ApexchartLineChart() {
         intersect: false,
       },
       legend: {
+        show: false,
         labels: {
           colors: theme.textColor,
         },
       },
-      series: [
-        {
-          name: 'Pitch',
-          data: generateRandomDataSeries(100),
-        },
-        {
-          name: 'Roll',
-          data: generateRandomDataSeries(100),
-        },
-        {
-          name: 'Yaw',
-          data: generateRandomDataSeries(100),
-        },
-        {
-          name: 'Height',
-          data: generateRandomDataSeries(100),
-        },
-        {
-          name: 'Pitch-filter',
-          data: generateRandomDataSeries(100),
-        },
-        {
-          name: 'Roll-filter',
-          data: generateRandomDataSeries(100),
-        },
-        {
-          name: 'Yaw-filter',
-          data: generateRandomDataSeries(100),
-        },
-        {
-          name: 'Acc-X',
-          data: generateRandomDataSeries(100),
-        },
-        {
-          name: 'Acc-Y',
-          data: generateRandomDataSeries(100),
-        },
-        {
-          name: 'Acc-Z',
-          data: generateRandomDataSeries(100),
-        },
-      ],
+      series: updateDataSeries(),
     } as ApexOptions);
 
     await chartRef.current.render();
-    console.log(chartRef.current);
+  }
+
+  function updateDataSeries() {
+    return Object.keys(dataSeries.current).map((v) => {
+      return {
+        name: v,
+        data: dataSeries.current[v],
+      };
+    });
+  }
+
+  function recordDataSeries() {
+    for (const key in dataSeries.current) {
+      const lastDate = dataSeries.current[key][dataSeries.current[key].length - 1].x;
+      dataSeries.current[key].push({
+        x: lastDate + TICKINTERVAL,
+        y: Math.floor(Math.random() * 5 + 3),
+      });
+    }
+
+    chartRef.current?.updateSeries(updateDataSeries());
   }
 
   useEffect(() => {
@@ -177,6 +184,21 @@ export default function ApexchartLineChart() {
         },
       }}
     >
+      <Space>
+        <Button
+          onClick={() => {
+            recordDataSeries();
+            setInterval(() => {
+              recordDataSeries();
+            }, TICKINTERVAL);
+          }}
+          type='primary'
+        >
+          Begin Record
+        </Button>
+        <Button>Stop Record</Button>
+      </Space>
+      <Divider />
       <div ref={ref}></div>
     </Card>
   );
