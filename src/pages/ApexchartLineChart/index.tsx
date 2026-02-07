@@ -6,11 +6,14 @@ import classes from './style.module.css';
 const theme = {
   textColor: '#cecdc9',
 };
+const formater = Intl.DateTimeFormat('zh-CN', {
+  timeStyle: 'medium',
+});
 const XAXISRANGE = 9000;
 const TICKINTERVAL = 1000;
 
 function generateRandomDataSeries(length: number = 1) {
-  let date = Math.floor(Date.now() / 1000) * 1000;
+  const date = Math.floor(Date.now() / 1000) * 1000;
 
   const data: { x: number; y: number }[] = [];
 
@@ -138,6 +141,11 @@ export default function ApexchartLineChart() {
         cssClass: classes.tooltip,
         shared: true,
         intersect: false,
+        x: {
+          formatter(val) {
+            return formater.format(new Date(val));
+          },
+        },
       },
       legend: {
         show: false,
@@ -162,14 +170,17 @@ export default function ApexchartLineChart() {
 
   function recordDataSeries() {
     for (const key in dataSeries.current) {
+      console.log(dataSeries.current[key].length);
+      if (dataSeries.current[key].length > 20) {
+        dataSeries.current[key].splice(0, 1);
+      }
+
       const lastDate = dataSeries.current[key][dataSeries.current[key].length - 1].x;
       dataSeries.current[key].push({
         x: lastDate + TICKINTERVAL,
         y: Math.floor(Math.random() * 5 + 3),
       });
     }
-
-    chartRef.current?.updateSeries(updateDataSeries());
   }
 
   useEffect(() => {
@@ -191,6 +202,9 @@ export default function ApexchartLineChart() {
             setInterval(() => {
               recordDataSeries();
             }, TICKINTERVAL);
+            setInterval(() => {
+              chartRef.current?.updateSeries(updateDataSeries());
+            }, 1000);
           }}
           type='primary'
         >
