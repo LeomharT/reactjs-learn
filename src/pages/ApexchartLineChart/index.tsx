@@ -19,7 +19,7 @@ function generateRandomDataSeries(length: number = 1) {
 
   for (let i = 0; i < length; i++) {
     const x = date + i * TICKINTERVAL;
-    const y = Math.floor(Math.random() * 5 + 3);
+    const y = Math.floor(Math.random() * 10 + 1);
     data.push({
       x,
       y,
@@ -178,7 +178,7 @@ export default function ApexchartLineChart() {
       const lastDate = dataSeries.current[key][dataSeries.current[key].length - 1].x;
       dataSeries.current[key].push({
         x: lastDate + TICKINTERVAL,
-        y: Math.floor(Math.random() * 5 + 3),
+        y: Math.floor(Math.random() * 10 + 1),
       });
     }
   }
