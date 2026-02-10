@@ -60,7 +60,7 @@ export default function ApexchartLineChart() {
       chart: {
         type: 'line',
         width: 720,
-        height: 480,
+        height: 380,
         animations: {
           enabled: true,
           easing: 'linear',

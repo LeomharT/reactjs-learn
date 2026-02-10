@@ -25,4 +25,8 @@
 .chart {
   width: 1056px;
   height: 752px;
+  border: 1px solid;
+  border-color: rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  padding: 16px;
 }
