@@ -9,7 +9,7 @@ const theme = {
 const formater = Intl.DateTimeFormat('zh-CN', {
   timeStyle: 'medium',
 });
-const XAXISRANGE = 9000;
+const XAXISRANGE = 6000;
 const TICKINTERVAL = 1000;
 
 function generateRandomDataSeries(length: number = 1) {
@@ -59,8 +59,8 @@ export default function ApexchartLineChart() {
       },
       chart: {
         type: 'line',
-        width: 1080,
-        height: 550,
+        width: 720,
+        height: 480,
         animations: {
           enabled: true,
           easing: 'linear',
@@ -195,25 +195,27 @@ export default function ApexchartLineChart() {
         },
       }}
     >
-      <Space>
-        <Button
-          onClick={() => {
-            recordDataSeries();
-            setInterval(() => {
+      <div className={classes.chart}>
+        <Space>
+          <Button
+            onClick={() => {
               recordDataSeries();
-            }, TICKINTERVAL);
-            setInterval(() => {
-              chartRef.current?.updateSeries(updateDataSeries());
-            }, 1000);
-          }}
-          type='primary'
-        >
-          Begin Record
-        </Button>
-        <Button>Stop Record</Button>
-      </Space>
-      <Divider />
-      <div ref={ref}></div>
+              setInterval(() => {
+                recordDataSeries();
+              }, TICKINTERVAL);
+              setInterval(() => {
+                chartRef.current?.updateSeries(updateDataSeries());
+              }, 1000);
+            }}
+            type='primary'
+          >
+            Begin Record
+          </Button>
+          <Button>Stop Record</Button>
+        </Space>
+        <Divider />
+        <div ref={ref}></div>
+      </div>
     </Card>
   );
 }
