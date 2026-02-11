@@ -188,13 +188,15 @@ export default function ApexchartLineChart() {
 
   function recordDataSeries() {
     for (const key in dataSeries.current) {
-      for (let i = 0; i < dataSeries.current[key].length - 10; i++) {
-        dataSeries.current[key][i].x = dataSeries.current[key][i].x - XAXISRANGE - TICKINTERVAL;
-        dataSeries.current[key][i].y = 0;
+      const { data } = dataSeries.current[key];
+
+      for (let i = 0; i < data.length - 10; i++) {
+        data[i].x = data[i].x - XAXISRANGE - TICKINTERVAL;
+        data[i].y = 0;
       }
 
-      const lastDate = dataSeries.current[key][dataSeries.current[key].length - 1].x;
-      dataSeries.current[key].push({
+      const lastDate = data[data.length - 1].x;
+      data.push({
         x: lastDate + TICKINTERVAL,
         y: Math.floor(Math.random() * 10 + 1),
       });
