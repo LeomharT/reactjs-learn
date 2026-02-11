@@ -13,6 +13,19 @@ const formater = Intl.DateTimeFormat('zh-CN', {
 const XAXISRANGE = 6000;
 const TICKINTERVAL = 1000;
 
+const LABELS = [
+  'Pitch',
+  'Roll',
+  'Yaw',
+  'Height',
+  'Pitch-filter',
+  'Roll-filter',
+  'Yaw-filter',
+  'Acc-X',
+  'Acc-Y',
+  'Acc-Z',
+];
+
 function generateRandomDataSeries(length: number = 1) {
   const date = Math.floor(Date.now() / 1000) * 1000;
 
@@ -28,19 +41,6 @@ function generateRandomDataSeries(length: number = 1) {
   }
   return data;
 }
-
-const LABELS = [
-  'Pitch',
-  'Roll',
-  'Yaw',
-  'Height',
-  'Pitch-filter',
-  'Roll-filter',
-  'Yaw-filter',
-  'Acc-X',
-  'Acc-Y',
-  'Acc-Z',
-];
 
 export default function ApexchartLineChart() {
   const ref = useRef<HTMLDivElement>(null);
