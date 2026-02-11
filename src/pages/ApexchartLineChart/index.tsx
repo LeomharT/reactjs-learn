@@ -1,6 +1,7 @@
 import { Button, Card, Divider, Space } from 'antd';
 import Charts, { type ApexOptions } from 'apexcharts';
 import { useEffect, useRef } from 'react';
+import CustomRadio from '../../components/CustomRadio';
 import classes from './style.module.css';
 
 const theme = {
@@ -28,22 +29,35 @@ function generateRandomDataSeries(length: number = 1) {
   return data;
 }
 
+const LABELS = [
+  'Pitch',
+  'Roll',
+  'Yaw',
+  'Height',
+  'Pitch-filter',
+  'Roll-filter',
+  'Yaw-filter',
+  'Acc-X',
+  'Acc-Y',
+  'Acc-Z',
+];
+
 export default function ApexchartLineChart() {
   const ref = useRef<HTMLDivElement>(null);
 
   const chartRef = useRef<Charts>(null);
 
   const dataSeries = useRef({
-    ['Pitch']: generateRandomDataSeries(10),
-    ['Roll']: generateRandomDataSeries(10),
-    ['Yaw']: generateRandomDataSeries(10),
-    ['Height']: generateRandomDataSeries(10),
-    ['Pitch-filter']: generateRandomDataSeries(10),
-    ['Roll-filter']: generateRandomDataSeries(10),
-    ['Yaw-filter']: generateRandomDataSeries(10),
-    ['Acc-X']: generateRandomDataSeries(10),
-    ['Acc-Y']: generateRandomDataSeries(10),
-    ['Acc-Z']: generateRandomDataSeries(10),
+    ['Pitch']: { data: generateRandomDataSeries(10), show: false },
+    ['Roll']: { data: generateRandomDataSeries(10), show: true },
+    ['Yaw']: { data: generateRandomDataSeries(10), show: true },
+    ['Height']: { data: generateRandomDataSeries(10), show: true },
+    ['Pitch-filter']: { data: generateRandomDataSeries(10), show: true },
+    ['Roll-filter']: { data: generateRandomDataSeries(10), show: true },
+    ['Yaw-filter']: { data: generateRandomDataSeries(10), show: true },
+    ['Acc-X']: { data: generateRandomDataSeries(10), show: true },
+    ['Acc-Y']: { data: generateRandomDataSeries(10), show: true },
+    ['Acc-Z']: { data: generateRandomDataSeries(10), show: true },
   });
 
   async function initialChart() {
@@ -160,12 +174,16 @@ export default function ApexchartLineChart() {
   }
 
   function updateDataSeries() {
-    return Object.keys(dataSeries.current).map((v) => {
-      return {
-        name: v,
-        data: dataSeries.current[v],
-      };
-    });
+    return Object.keys(dataSeries.current)
+      .map((v) => {
+        if (!dataSeries.current[v].show) return undefined;
+
+        return {
+          name: v,
+          data: dataSeries.current[v].data,
+        };
+      })
+      .filter(Boolean) as any[];
   }
 
   function recordDataSeries() {
@@ -214,7 +232,22 @@ export default function ApexchartLineChart() {
           <Button>Stop Record</Button>
         </Space>
         <Divider />
-        <div ref={ref}></div>
+        <Space>
+          <Space vertical>
+            {LABELS.map((value) => (
+              <CustomRadio
+                key={value}
+                label={value}
+                checked={true}
+                onChange={(val) => {
+                  dataSeries.current[value].show = val;
+                  chartRef.current?.updateSeries(updateDataSeries());
+                }}
+              />
+            ))}
+          </Space>
+          <div ref={ref}></div>
+        </Space>
       </div>
     </Card>
   );
