@@ -12,7 +12,7 @@
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
     "antd": "^6.3.0",
-    "apexcharts": "^5.3.6",
+    "apexcharts": "^5.4.0",
     "flv.js": "^1.6.2",
     "install": "^0.13.0",
     "jsvectormap": "^1.7.0",
