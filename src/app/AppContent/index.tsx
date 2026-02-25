@@ -1,12 +1,5 @@
 import { VerticalAlignTopOutlined } from '@ant-design/icons';
-import {
-  Breadcrumb,
-  FloatButton,
-  Layout,
-  Skeleton,
-  Typography,
-  type BreadcrumbProps,
-} from 'antd';
+import { Breadcrumb, FloatButton, Layout, Skeleton, Typography, type BreadcrumbProps } from 'antd';
 import { Suspense, useRef } from 'react';
 import { Link, Outlet, useLocation, useMatches } from 'react-router';
 import { AppErrorBoundary } from '../AppErrorboundary';
@@ -27,12 +20,7 @@ export default function AppContent() {
         const label = (value.handle as { label: string }).label;
 
         items.push({
-          title:
-            index === matches.length - 1 ? (
-              label
-            ) : (
-              <Link to={value.pathname}>{label}</Link>
-            ),
+          title: index === matches.length - 1 ? label : <Link to={value.pathname}>{label}</Link>,
         });
       }
     });
@@ -49,10 +37,7 @@ export default function AppContent() {
       <AppErrorBoundary>
         <Suspense key={location.pathname} fallback={<Fallback />}>
           <Breadcrumb items={getItems()} />
-          <Typography.Title
-            level={3}
-            hidden={!matches[matches.length - 1]?.handle}
-          >
+          <Typography.Title level={3} hidden={!matches[matches.length - 1]?.handle}>
             {(matches[matches.length - 1]?.handle as { label?: string })?.label}
           </Typography.Title>
           <Outlet />
