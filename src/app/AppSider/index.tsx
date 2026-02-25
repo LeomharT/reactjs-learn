@@ -15,7 +15,7 @@ export default function AppSider() {
 
   const { token } = theme.useToken();
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(localStorage.getItem('collapsed') === 'true');
 
   const handleOnMenuChange: MenuProps['onSelect'] = (info) => {
     navigate(`${info.key}`);
@@ -43,7 +43,12 @@ export default function AppSider() {
         size='small'
         icon={collapsed ? <RightOutlined /> : <LeftOutlined />}
         className={classes.button}
-        onClick={() => setCollapsed((prev) => !prev)}
+        onClick={() =>
+          setCollapsed((prev) => {
+            localStorage.setItem('collapsed', String(!prev));
+            return !prev;
+          })
+        }
       />
     </Layout.Sider>
   );

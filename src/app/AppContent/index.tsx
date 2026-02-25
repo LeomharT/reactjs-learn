@@ -8,8 +8,6 @@ import classes from './style.module.css';
 export default function AppContent() {
   const ref = useRef<HTMLDivElement>(null);
 
-  const a: number = 123;
-
   const matches = useMatches();
 
   const location = useLocation();

@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route } from 'react-router';
 import AppShell from '../app';
 import NotFound from '../pages/NotFound';
+import Test from '../pages/Test';
 
 const Home = lazy(() => import('../pages/Home'));
 const DemoUse = lazy(() => import('../pages/DemoUse'));
@@ -47,6 +48,7 @@ export const router = createBrowserRouter(
           element={<ApexchartLineChart />}
         />
       </Route>
+      <Route path='test' element={<Test />} />
       <Route path='*' handle={{ label: '404' }} element={<NotFound />} />
     </Route>,
   ),
